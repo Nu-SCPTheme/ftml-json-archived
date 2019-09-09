@@ -31,16 +31,25 @@ extern crate jsonrpc_http_server;
 #[macro_use]
 extern crate log;
 extern crate num_cpus;
+extern crate pest;
 extern crate pretty_env_logger;
 
 #[macro_use]
 extern crate serde;
 
 #[macro_use]
+extern crate serde_json;
+
+#[macro_use]
 extern crate str_macro;
 extern crate toml;
 
+#[macro_use]
+mod macros;
+
 mod config;
+mod ftml_error;
+mod handle;
 mod server;
 
 use self::config::Config;

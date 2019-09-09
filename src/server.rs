@@ -18,20 +18,41 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use crate::handle::FtmlHandle;
+use crate::ftml_error;
+use ftml::prelude::*;
 use jsonrpc_core::{Error, ErrorCode, IoHandler, Result};
 use jsonrpc_derive::rpc;
 
 #[rpc]
 pub trait FtmlApi {
+    // Misc
     #[rpc(name = "ping")]
     fn ping(&self) -> Result<String>;
 
     #[rpc(name = "error")]
-    fn error(&self) -> Result<()>;
+    fn error(&self, message: Option<String>) -> Result<()>;
+
+    // Core
+    #[rpc(name = "prefilter")]
+    fn prefilter(&self, input: String) -> Result<String>;
+
+    /*
+    #[rpc(name = "parse")]
+    fn parse(&self, input: &str) -> Result<SyntaxTreeJson>;
+
+    #[rpc(name = "render")]
+    fn render(&self, syntax_tree: SyntaxTreeJson) -> Result<String>;
+
+    #[rpc(name = "transform")]
+    fn transform(&self, input: &str) -> Result<()>; // add html type
+    */
 }
 
 #[derive(Debug)]
-pub struct FtmlServer;
+pub struct FtmlServer {
+    handle: FtmlHandle,
+}
 
 impl FtmlServer {
     pub fn to_handler(self) -> IoHandler {
@@ -44,13 +65,25 @@ impl FtmlServer {
 }
 
 impl FtmlApi for FtmlServer {
+    // Misc
     fn ping(&self) -> Result<String> {
         info!("Method: ping");
         Ok(str!("pong!"))
     }
 
-    fn error(&self) -> Result<()> {
+    fn error(&self, message: Option<String>) -> Result<()> {
         info!("Method: error");
         Err(Error::new(ErrorCode::InternalError))
+    }
+
+    // Core
+    fn prefilter(&self, input: String) -> Result<String> {
+        info!("Method: prefilter");
+
+        let mut text = input;
+        match prefilter(&mut text, &self.handle) {
+            Ok(_) => Ok(text),
+            Err(err) => Err(ftml_error::convert(err)),
+        }
     }
 }
