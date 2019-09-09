@@ -9,7 +9,9 @@ edition = "2018" # this refers to the Cargo.toml version
 color-backtrace = "0.2"
 ftml = { version = "0.2", path = "../ftml" }
 jsonrpc-core = "13"
+jsonrpc-core-client = "13"
 jsonrpc-derive = "13"
 jsonrpc-http-server = "13"
 serde = { version = "1", features = ["derive"] }
+str-macro = "0.1"
 toml = "0.5"

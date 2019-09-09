@@ -1,5 +1,5 @@
 /*
- * main.rs
+ * server.rs
  *
  * ftml-json - JSON server to convert Wikidot code to HTML
  * Copyright (C) 2019 Ammon Smith
@@ -18,26 +18,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#![deny(missing_debug_implementations)]
+use jsonrpc_core::Result;
+use jsonrpc_derive::rpc;
 
-extern crate color_backtrace;
-extern crate ftml;
-extern crate jsonrpc_core;
-extern crate jsonrpc_core_client;
-extern crate jsonrpc_derive;
-extern crate jsonrpc_http_server;
+#[rpc]
+pub trait FtmlApi {
+    #[rpc(name = "ping")]
+    fn ping(&self) -> Result<String>;
+}
 
-#[macro_use]
-extern crate serde;
+#[derive(Debug)]
+pub struct FtmlServer;
 
-#[macro_use]
-extern crate str_macro;
-extern crate toml;
-
-mod server;
-
-pub type StdResult<T, E> = std::result::Result<T, E>;
-
-fn main() {
-    color_backtrace::install();
+impl FtmlApi for FtmlServer {
+    #[inline]
+    fn ping(&self) -> Result<String> {
+        Ok(str!("pong!"))
+    }
 }
