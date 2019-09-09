@@ -18,5 +18,30 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use ftml::{RemoteHandle, RemoteResult};
+use ftml::data::User;
+use std::borrow::Cow;
+use std::collections::HashMap;
+
 #[derive(Debug)]
 pub struct FtmlHandle;
+
+// TODO: add JSONRPC client
+
+impl RemoteHandle for FtmlHandle {
+    fn get_user_by_name(&self, _name: &str) -> RemoteResult<Option<User>> {
+        Ok(None)
+    }
+
+    fn get_user_by_id(&self, _id: u64) -> RemoteResult<Option<User>> {
+        Ok(None)
+    }
+
+    fn get_page(
+        &self,
+        _name: &str,
+        _args: &HashMap<&str, &str>,
+    ) -> RemoteResult<Option<Cow<'static, str>>> {
+        Ok(None)
+    }
+}
