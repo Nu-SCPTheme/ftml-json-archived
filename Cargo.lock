@@ -337,8 +337,8 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "ftml"
-version = "0.2.15"
-source = "git+https://github.com/Nu-SCPTheme/ftml#13efbd7a66b6a02afa34e5f70ad72dde3f9a17e3"
+version = "0.2.16"
+source = "git+https://github.com/Nu-SCPTheme/ftml#e3a977676434796026d8d892b8512af16d143543"
 dependencies = [
  "cfg-if 0.1.9 (registry+https://github.com/rust-lang/crates.io-index)",
  "chrono 0.4.9 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -361,7 +361,7 @@ version = "0.0.2"
 dependencies = [
  "clap 2.33.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "color-backtrace 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "ftml 0.2.15 (git+https://github.com/Nu-SCPTheme/ftml)",
+ "ftml 0.2.16 (git+https://github.com/Nu-SCPTheme/ftml)",
  "jsonrpc-core 13.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "jsonrpc-core-client 13.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "jsonrpc-derive 13.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1709,7 +1709,7 @@ dependencies = [
 "checksum fallible-iterator 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "4443176a9f2c162692bd3d352d745ef9413eec5782a80d8fd6f8a1ac692a07f7"
 "checksum findshlibs 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)" = "b1260d61e4fe2a6ab845ffdc426a0bd68ffb240b91cf0ec5a8d1170cec535bd8"
 "checksum fnv 1.0.6 (registry+https://github.com/rust-lang/crates.io-index)" = "2fad85553e09a6f881f739c29f0b00b0f01357c743266d478b68951ce23285f3"
-"checksum ftml 0.2.15 (git+https://github.com/Nu-SCPTheme/ftml)" = "<none>"
+"checksum ftml 0.2.16 (git+https://github.com/Nu-SCPTheme/ftml)" = "<none>"
 "checksum fuchsia-cprng 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)" = "a06f77d526c1a601b7c4cdd98f54b5eaabffc14d5f2f0296febdc7f357c6d3ba"
 "checksum fuchsia-zircon 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)" = "2e9763c69ebaae630ba35f74888db465e49e259ba1bc0eda7d06f4a067615d82"
 "checksum fuchsia-zircon-sys 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)" = "3dcaa9ae7725d12cdb85b3ad99a434db70b468c09ded17e012d86b5c1010f7a7"

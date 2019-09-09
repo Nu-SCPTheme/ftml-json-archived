@@ -21,7 +21,7 @@
 use crate::ftml_error;
 use crate::handle::FtmlHandle;
 use ftml::prelude::*;
-use jsonrpc_core::{IoHandler, Result};
+use jsonrpc_core::{IoHandler, Result, Value};
 use jsonrpc_derive::rpc;
 
 #[rpc]
@@ -37,10 +37,10 @@ pub trait FtmlApi {
     #[rpc(name = "prefilter")]
     fn prefilter(&self, input: String) -> Result<String>;
 
-    /*
     #[rpc(name = "parse")]
-    fn parse(&self, input: &str) -> Result<SyntaxTree>;
+    fn parse(&self, input: String) -> Result<Value>;
 
+    /*
     #[rpc(name = "render")]
     fn render(&self, syntax_tree: SyntaxTree) -> Result<HtmlOutput>;
 
@@ -94,7 +94,26 @@ impl FtmlApi for FtmlServer {
         let mut text = input;
         match prefilter(&mut text, &self.handle) {
             Ok(_) => Ok(text),
-            Err(err) => Err(ftml_error::convert(err)),
+            Err(error) => Err(ftml_error::convert(error)),
         }
+    }
+
+    fn parse(&self, input: String) -> Result<Value> {
+        info!("Method: parse");
+
+        let tree = parse(&input).map_err(ftml_error::convert)?;
+        let result = serde_json::to_value(&tree).map_err(|err| {
+            make_err!(
+                107,
+                err,
+                json!({
+                    "line": err.line(),
+                    "column": err.column(),
+                    "classify": format!("{:?}", err.classify()),
+                })
+            )
+        })?;
+
+        Ok(result)
     }
 }
