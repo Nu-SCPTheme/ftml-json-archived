@@ -27,7 +27,11 @@ extern crate jsonrpc_core;
 extern crate jsonrpc_core_client;
 extern crate jsonrpc_derive;
 extern crate jsonrpc_http_server;
+
+#[macro_use]
+extern crate log;
 extern crate num_cpus;
+extern crate pretty_env_logger;
 
 #[macro_use]
 extern crate serde;
@@ -47,6 +51,7 @@ pub type StdResult<T, E> = std::result::Result<T, E>;
 
 fn main() {
     color_backtrace::install();
+    pretty_env_logger::init();
 
     let Config { address, threads } = Config::parse_args();
     let io = FtmlServer.to_handler();
