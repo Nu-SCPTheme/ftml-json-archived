@@ -24,6 +24,7 @@ use ftml::html::HtmlOutput;
 use ftml::prelude::*;
 use jsonrpc_core::{IoHandler, Result, Value};
 use jsonrpc_derive::rpc;
+use std::time::SystemTime;
 
 const PROTOCOL_VERSION: &str = "0";
 
@@ -38,6 +39,9 @@ pub trait FtmlApi {
 
     #[rpc(name = "error")]
     fn error(&self, message: Option<String>) -> Result<()>;
+
+    #[rpc(name = "time")]
+    fn time(&self) -> Result<SystemTime>;
 
     // Core
     #[rpc(name = "prefilter")]
@@ -91,6 +95,12 @@ impl FtmlApi for FtmlServer {
         };
 
         Err(error)
+    }
+
+    fn time(&self) -> Result<SystemTime> {
+        info!("Method: time");
+
+        Ok(SystemTime::now())
     }
 
     // Core
