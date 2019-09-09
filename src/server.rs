@@ -42,7 +42,7 @@ pub trait FtmlApi {
     fn parse(&self, input: String) -> Result<Value>;
 
     #[rpc(name = "render")]
-    fn render(&self, page_info: Value, syntax_tree: Value) -> Result<HtmlOutput>;
+    fn render(&self, page_info: PageInfoOwned, syntax_tree: Value) -> Result<HtmlOutput>;
 
     /*
     #[rpc(name = "transform")]
@@ -106,7 +106,13 @@ impl FtmlApi for FtmlServer {
         json::to(&tree)
     }
 
-    fn render(&self, page_info: Value, syntax_tree: Value) -> Result<HtmlOutput> {
-        panic!()
+    fn render(&self, page_info: PageInfoOwned, syntax_tree: Value) -> Result<HtmlOutput> {
+        info!("Method: render");
+
+        let syntax_tree = json::from(syntax_tree)?;
+        let page_info = page_info.as_borrow();
+        let html = HtmlRender::new(&self.handle);
+        let output = html.render(&syntax_tree, page_info).map_err(ftml_error::convert)?;
+        Ok(output)
     }
 }
