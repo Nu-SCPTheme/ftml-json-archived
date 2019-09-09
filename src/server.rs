@@ -39,13 +39,13 @@ pub trait FtmlApi {
 
     /*
     #[rpc(name = "parse")]
-    fn parse(&self, input: &str) -> Result<SyntaxTreeJson>;
+    fn parse(&self, input: &str) -> Result<SyntaxTree>;
 
     #[rpc(name = "render")]
-    fn render(&self, syntax_tree: SyntaxTreeJson) -> Result<String>;
+    fn render(&self, syntax_tree: SyntaxTree) -> Result<HtmlOutput>;
 
     #[rpc(name = "transform")]
-    fn transform(&self, input: &str) -> Result<()>; // add html type
+    fn transform(&self, input: &str) -> Result<HtmlOutput>;
     */
 }
 
