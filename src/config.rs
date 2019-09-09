@@ -18,7 +18,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+use clap::{App, Arg};
 use num_cpus;
+use std::fs::File;
+use std::io::Read;
 use std::net::{IpAddr, Ipv4Addr, Ipv6Addr, SocketAddr};
 use std::path::Path;
 
@@ -29,9 +32,26 @@ pub struct Config {
 }
 
 impl Config {
-    #[inline]
-    pub fn read<P: AsRef<Path>>(path: P) -> Self {
-        ConfigFile::read(path.as_ref()).into()
+    #[cold]
+    pub fn parse_args() -> Self {
+        let matches = App::new("ftml-json")
+            .version(env!("CARGO_PKG_VERSION"))
+            .author("Ammon Smith")
+            .about("Daemon serving ftml transforms via JSONRPC")
+            .max_term_width(110)
+            .arg(
+                Arg::with_name("config")
+                    .short("c")
+                    .long("config")
+                    .value_name("FILE")
+                    .required(true)
+                    .help("Use the given configuration file"),
+            )
+            .get_matches();
+
+        let path = Path::new(matches.value_of("config").unwrap());
+
+        ConfigFile::read(path).into()
     }
 }
 
@@ -46,9 +66,6 @@ struct ConfigFile {
 impl ConfigFile {
     #[cold]
     fn read(path: &Path) -> Self {
-        use std::fs::File;
-        use std::io::Read;
-
         let mut file = File::open(path).expect("Unable to open config file");
         let mut contents = String::new();
         let _ = file

@@ -20,6 +20,7 @@
 
 #![deny(missing_debug_implementations)]
 
+extern crate clap;
 extern crate color_backtrace;
 extern crate ftml;
 extern crate jsonrpc_core;
@@ -47,8 +48,7 @@ pub type StdResult<T, E> = std::result::Result<T, E>;
 fn main() {
     color_backtrace::install();
 
-    let Config { address, threads } = Config::read("");
-
+    let Config { address, threads } = Config::parse_args();
     let io = FtmlServer.to_handler();
     let server = ServerBuilder::new(io)
         .threads(threads)
