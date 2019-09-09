@@ -1,0 +1,11 @@
+# Sample configuration file
+
+# The default port for ftml
+port = 3865
+
+# Whether to use IPv6 or not
+use-ipv6 = true
+
+# Number of threads to run the server with.
+# Will determine automatically if set to 0.
+threads = 0
