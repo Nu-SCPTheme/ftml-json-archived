@@ -18,9 +18,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use crate::ftml_error;
+use crate::{ftml_error, json};
 use crate::handle::FtmlHandle;
 use ftml::prelude::*;
+use ftml::html::HtmlOutput;
 use jsonrpc_core::{IoHandler, Result, Value};
 use jsonrpc_derive::rpc;
 
@@ -40,10 +41,10 @@ pub trait FtmlApi {
     #[rpc(name = "parse")]
     fn parse(&self, input: String) -> Result<Value>;
 
-    /*
     #[rpc(name = "render")]
-    fn render(&self, syntax_tree: SyntaxTree) -> Result<HtmlOutput>;
+    fn render(&self, page_info: Value, syntax_tree: Value) -> Result<HtmlOutput>;
 
+    /*
     #[rpc(name = "transform")]
     fn transform(&self, input: &str) -> Result<HtmlOutput>;
     */
@@ -102,18 +103,10 @@ impl FtmlApi for FtmlServer {
         info!("Method: parse");
 
         let tree = parse(&input).map_err(ftml_error::convert)?;
-        let result = serde_json::to_value(&tree).map_err(|err| {
-            make_err!(
-                107,
-                err,
-                json!({
-                    "line": err.line(),
-                    "column": err.column(),
-                    "classify": format!("{:?}", err.classify()),
-                })
-            )
-        })?;
+        json::to(&tree)
+    }
 
-        Ok(result)
+    fn render(&self, page_info: Value, syntax_tree: Value) -> Result<HtmlOutput> {
+        panic!()
     }
 }

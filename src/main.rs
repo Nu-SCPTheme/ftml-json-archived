@@ -50,6 +50,7 @@ mod macros;
 mod config;
 mod ftml_error;
 mod handle;
+mod json;
 mod server;
 
 use self::config::Config;
