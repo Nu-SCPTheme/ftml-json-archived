@@ -18,7 +18,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use jsonrpc_core::Result;
+use jsonrpc_core::{IoHandler, Result};
 use jsonrpc_derive::rpc;
 
 #[rpc]
@@ -29,6 +29,14 @@ pub trait FtmlApi {
 
 #[derive(Debug)]
 pub struct FtmlServer;
+
+impl FtmlServer {
+    pub fn to_handler(self) -> IoHandler {
+        let mut io = IoHandler::new();
+        io.extend_with(FtmlServer.to_delegate());
+        io
+    }
+}
 
 impl FtmlApi for FtmlServer {
     #[inline]

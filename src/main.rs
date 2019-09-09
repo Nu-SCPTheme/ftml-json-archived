@@ -36,8 +36,19 @@ extern crate toml;
 
 mod server;
 
+use self::server::FtmlServer;
+use jsonrpc_http_server::ServerBuilder;
+
 pub type StdResult<T, E> = std::result::Result<T, E>;
 
 fn main() {
     color_backtrace::install();
+
+    let io = FtmlServer.to_handler();
+    let server = ServerBuilder::new(io)
+        .threads(4)
+        .start_http(&"127.0.0.1:3865".parse().unwrap())
+        .unwrap();
+
+    server.wait();
 }
