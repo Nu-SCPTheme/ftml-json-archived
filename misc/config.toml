@@ -9,3 +9,6 @@ use-ipv6 = true
 # Number of threads to run the server with.
 # Will determine automatically if set to 0.
 threads = 0
+
+# Logging level for server. If empty defaults to info.
+log-level = "debug"

@@ -46,18 +46,23 @@ mod server;
 use self::config::Config;
 use self::server::FtmlServer;
 use jsonrpc_http_server::ServerBuilder;
-use log::LevelFilter;
 
 pub type StdResult<T, E> = std::result::Result<T, E>;
 
 fn main() {
     color_backtrace::install();
+
+    let Config {
+        address,
+        threads,
+        log_level,
+    } = Config::parse_args();
+
     pretty_env_logger::formatted_builder()
-        .filter_level(LevelFilter::Debug)
+        .filter_level(log_level)
         .init();
 
-    info!("ftml-json starting...");
-    let Config { address, threads } = Config::parse_args();
+    info!("Server starting");
     let io = FtmlServer.to_handler();
     let server = ServerBuilder::new(io)
         .threads(threads)

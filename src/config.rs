@@ -19,6 +19,7 @@
  */
 
 use clap::{App, Arg};
+use log::LevelFilter;
 use num_cpus;
 use std::fs::File;
 use std::io::Read;
@@ -29,6 +30,7 @@ use std::path::Path;
 pub struct Config {
     pub address: SocketAddr,
     pub threads: usize,
+    pub log_level: LevelFilter,
 }
 
 impl Config {
@@ -62,14 +64,13 @@ impl Config {
 struct ConfigFile {
     pub port: u16,
     pub use_ipv6: bool,
+    pub log_level: Option<String>,
     pub threads: Option<usize>,
 }
 
 impl ConfigFile {
     #[cold]
     fn read(path: &Path) -> Self {
-        debug!("Reading configuration from '{}'", path.display());
-
         let mut file = File::open(path).expect("Unable to open config file");
         let mut contents = String::new();
         let _ = file
@@ -79,13 +80,39 @@ impl ConfigFile {
 
         obj
     }
+
+    #[cold]
+    fn parse_log_level(&self) -> LevelFilter {
+        const LEVELS: [(&str, LevelFilter); 9] = [
+            ("", LevelFilter::Info),
+            ("off", LevelFilter::Off),
+            ("none", LevelFilter::Off),
+            ("trace", LevelFilter::Trace),
+            ("debug", LevelFilter::Debug),
+            ("warn", LevelFilter::Warn),
+            ("warning", LevelFilter::Warn),
+            ("err", LevelFilter::Error),
+            ("error", LevelFilter::Error),
+        ];
+
+        let log_level = match self.log_level {
+            Some(ref log_level) => log_level,
+            None => return LevelFilter::Info,
+        };
+
+        for (text, level) in &LEVELS {
+            if log_level.eq_ignore_ascii_case(text) {
+                return *level;
+            }
+        }
+
+        panic!("No such log level for '{}'", log_level);
+    }
 }
 
 impl Into<Config> for ConfigFile {
     #[cold]
     fn into(self) -> Config {
-        debug!("Converting configuration object");
-
         let ip_address = if self.use_ipv6 {
             IpAddr::V6(Ipv6Addr::UNSPECIFIED)
         } else {
@@ -93,11 +120,16 @@ impl Into<Config> for ConfigFile {
         };
 
         let address = SocketAddr::new(ip_address, self.port);
+        let log_level = self.parse_log_level();
         let threads = match self.threads {
             Some(0) | None => num_cpus::get(),
             Some(threads) => threads,
         };
 
-        Config { address, threads }
+        Config {
+            address,
+            threads,
+            log_level,
+        }
     }
 }
