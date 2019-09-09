@@ -45,7 +45,7 @@ mod server;
 
 use self::config::Config;
 use self::server::FtmlServer;
-use jsonrpc_http_server::ServerBuilder;
+use jsonrpc_http_server::{AccessControlAllowOrigin, DomainsValidation, ServerBuilder};
 
 pub type StdResult<T, E> = std::result::Result<T, E>;
 
@@ -65,9 +65,12 @@ fn main() {
     info!("Server starting");
     let io = FtmlServer.to_handler();
     let server = ServerBuilder::new(io)
+        .cors(DomainsValidation::AllowOnly(vec![
+            AccessControlAllowOrigin::Null,
+        ]))
         .threads(threads)
         .start_http(&address)
-        .unwrap();
+        .expect("Unable to start RPC server");
 
     info!("Running main loop, serving on {}", &address);
     server.wait();

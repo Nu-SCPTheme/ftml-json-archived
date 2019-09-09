@@ -18,13 +18,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use jsonrpc_core::{IoHandler, Result};
+use jsonrpc_core::{Error, ErrorCode, IoHandler, Result};
 use jsonrpc_derive::rpc;
 
 #[rpc]
 pub trait FtmlApi {
     #[rpc(name = "ping")]
     fn ping(&self) -> Result<String>;
+
+    #[rpc(name = "error")]
+    fn error(&self) -> Result<()>;
 }
 
 #[derive(Debug)]
@@ -34,16 +37,20 @@ impl FtmlServer {
     pub fn to_handler(self) -> IoHandler {
         debug!("Creating IoHandler with FtmlApi");
 
-        let mut io = IoHandler::new();
+        let mut io = IoHandler::default();
         io.extend_with(FtmlServer.to_delegate());
         io
     }
 }
 
 impl FtmlApi for FtmlServer {
-    #[inline]
     fn ping(&self) -> Result<String> {
         info!("Method: ping");
         Ok(str!("pong!"))
+    }
+
+    fn error(&self) -> Result<()> {
+        info!("Method: error");
+        Err(Error::new(ErrorCode::InternalError))
     }
 }
