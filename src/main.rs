@@ -46,12 +46,15 @@ mod server;
 use self::config::Config;
 use self::server::FtmlServer;
 use jsonrpc_http_server::ServerBuilder;
+use log::LevelFilter;
 
 pub type StdResult<T, E> = std::result::Result<T, E>;
 
 fn main() {
     color_backtrace::install();
-    pretty_env_logger::init();
+    pretty_env_logger::formatted_builder()
+        .filter_level(LevelFilter::Debug)
+        .init();
 
     info!("ftml-json starting...");
     let Config { address, threads } = Config::parse_args();
