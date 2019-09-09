@@ -29,7 +29,7 @@ jobs:
   include:
     - stage: format
       script:
-        - rustfmt src/lib.rs --check
+        - rustfmt src/main.rs --check
     - stage: test
       rust:
         - stable
