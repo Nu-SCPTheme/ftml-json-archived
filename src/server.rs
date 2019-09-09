@@ -18,16 +18,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use crate::{ftml_error, json};
 use crate::handle::FtmlHandle;
-use ftml::prelude::*;
+use crate::{ftml_error, json};
 use ftml::html::HtmlOutput;
+use ftml::prelude::*;
 use jsonrpc_core::{IoHandler, Result, Value};
 use jsonrpc_derive::rpc;
+
+const PROTOCOL_VERSION: &str = "0";
 
 #[rpc]
 pub trait FtmlApi {
     // Misc
+    #[rpc(name = "protocol", alias("protocolVersion"))]
+    fn protocol(&self) -> Result<String>;
+
     #[rpc(name = "ping")]
     fn ping(&self) -> Result<String>;
 
@@ -69,6 +74,11 @@ impl FtmlServer {
 
 impl FtmlApi for FtmlServer {
     // Misc
+    fn protocol(&self) -> Result<String> {
+        info!("Method: protocol");
+        Ok(str!(PROTOCOL_VERSION))
+    }
+
     fn ping(&self) -> Result<String> {
         info!("Method: ping");
         Ok(str!("pong!"))

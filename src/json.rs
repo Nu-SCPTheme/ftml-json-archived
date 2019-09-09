@@ -19,7 +19,7 @@
  */
 
 use jsonrpc_core::{Error, Result};
-use serde::{Serialize, de::DeserializeOwned};
+use serde::{de::DeserializeOwned, Serialize};
 use serde_json::{Error as JsonError, Value};
 
 fn json_error(error: JsonError) -> Error {
