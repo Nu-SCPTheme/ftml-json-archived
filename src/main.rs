@@ -20,4 +20,13 @@
 
 #![deny(missing_debug_implementations)]
 
+extern crate ftml;
+extern crate jsonrpc_core;
+extern crate jsonrpc_derive;
+extern crate jsonrpc_http_server;
+
+#[macro_use]
+extern crate serde;
+extern crate toml;
+
 fn main() {}
