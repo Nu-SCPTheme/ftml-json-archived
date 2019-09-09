@@ -20,6 +20,7 @@
 
 #![deny(missing_debug_implementations)]
 
+extern crate color_backtrace;
 extern crate ftml;
 extern crate jsonrpc_core;
 extern crate jsonrpc_derive;
@@ -29,4 +30,6 @@ extern crate jsonrpc_http_server;
 extern crate serde;
 extern crate toml;
 
-fn main() {}
+fn main() {
+    color_backtrace::install();
+}
