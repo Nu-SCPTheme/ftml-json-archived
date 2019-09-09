@@ -24,10 +24,16 @@ use pest::error::{ErrorVariant, LineColLocation};
 use std::fmt::Debug;
 
 fn convert_variant<R: Debug>(variant: ErrorVariant<R>) -> Value {
+    macro_rules! map_str {
+        ($map:expr) => (
+            $map.iter().map(|rule| format!("{:?}", rule)).collect::<Vec<_>>()
+        )
+    }
+
     match variant {
         ErrorVariant::ParsingError { positives, negatives } => json!({
-            "positives": positives.iter().map(|rule| format!("{:?}", rule)).collect(),
-            "negatives": negatives.iter().map(|rule| format!("{:?}", rule)).collect(),
+            "positives": map_str!(positives),
+            "negatives": map_str!(negatives),
         }),
         ErrorVariant::CustomError { message } => Value::String(message),
     }
@@ -74,7 +80,10 @@ pub fn convert(error: ftml::Error) -> Error {
             "location": (),
             "line_col": convert_line_col(err.line_col),
         })),
-        Remote(err) => make_err!(105, err.into()),
+        Remote(err) => {
+            let msg: String = err.into();
+            make_err!(105, msg)
+        },
         Fmt(err) => make_err!(106, err),
     }
 }

@@ -72,7 +72,8 @@ fn main() {
         .init();
 
     info!("Server starting");
-    let io = FtmlServer.to_handler();
+    let api = FtmlServer::new();
+    let io = api.to_handler();
     let server = ServerBuilder::new(io)
         .cors(DomainsValidation::AllowOnly(vec![
             AccessControlAllowOrigin::Null,
