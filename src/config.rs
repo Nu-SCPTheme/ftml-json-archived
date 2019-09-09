@@ -34,6 +34,8 @@ pub struct Config {
 impl Config {
     #[cold]
     pub fn parse_args() -> Self {
+        debug!("Parsing arguments");
+
         let matches = App::new("ftml-json")
             .version(env!("CARGO_PKG_VERSION"))
             .author("Ammon Smith")
@@ -66,6 +68,8 @@ struct ConfigFile {
 impl ConfigFile {
     #[cold]
     fn read(path: &Path) -> Self {
+        debug!("Reading configuration from '{}'", path.display());
+
         let mut file = File::open(path).expect("Unable to open config file");
         let mut contents = String::new();
         let _ = file
@@ -80,6 +84,8 @@ impl ConfigFile {
 impl Into<Config> for ConfigFile {
     #[cold]
     fn into(self) -> Config {
+        debug!("Converting configuration object");
+
         let ip_address = if self.use_ipv6 {
             IpAddr::V6(Ipv6Addr::UNSPECIFIED)
         } else {

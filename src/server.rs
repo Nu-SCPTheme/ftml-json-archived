@@ -32,6 +32,8 @@ pub struct FtmlServer;
 
 impl FtmlServer {
     pub fn to_handler(self) -> IoHandler {
+        debug!("Creating IoHandler with FtmlApi");
+
         let mut io = IoHandler::new();
         io.extend_with(FtmlServer.to_delegate());
         io

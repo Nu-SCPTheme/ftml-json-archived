@@ -53,6 +53,7 @@ fn main() {
     color_backtrace::install();
     pretty_env_logger::init();
 
+    info!("ftml-json starting...");
     let Config { address, threads } = Config::parse_args();
     let io = FtmlServer.to_handler();
     let server = ServerBuilder::new(io)
@@ -60,5 +61,6 @@ fn main() {
         .start_http(&address)
         .unwrap();
 
+    info!("Running main server loop...");
     server.wait();
 }
