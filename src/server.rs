@@ -43,6 +43,7 @@ impl FtmlServer {
 impl FtmlApi for FtmlServer {
     #[inline]
     fn ping(&self) -> Result<String> {
+        info!("Method: ping");
         Ok(str!("pong!"))
     }
 }
