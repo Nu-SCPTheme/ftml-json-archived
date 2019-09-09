@@ -19,7 +19,7 @@
  */
 
 use jsonrpc_core::{Error, Result};
-use serde::{de::DeserializeOwned, Serialize};
+use serde::Serialize;
 use serde_json::{Error as JsonError, Value};
 
 fn json_error(error: JsonError) -> Error {
@@ -38,10 +38,4 @@ fn json_error(error: JsonError) -> Error {
 pub fn to<S: Serialize>(object: &S) -> Result<Value> {
     let value = serde_json::to_value(object).map_err(json_error)?;
     Ok(value)
-}
-
-#[cold]
-pub fn from<D: DeserializeOwned>(value: Value) -> Result<D> {
-    let object = serde_json::from_value(value).map_err(json_error)?;
-    Ok(object)
 }
