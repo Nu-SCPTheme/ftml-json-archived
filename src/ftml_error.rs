@@ -20,7 +20,7 @@
 
 use ftml::Error::*;
 use jsonrpc_core::{Error, Value};
-use pest::error::{ErrorVariant, LineColLocation};
+use pest::error::{ErrorVariant, InputLocation, LineColLocation};
 use std::fmt::Debug;
 
 fn convert_variant<R: Debug>(variant: ErrorVariant<R>) -> Value {
@@ -42,6 +42,20 @@ fn convert_variant<R: Debug>(variant: ErrorVariant<R>) -> Value {
         }),
         ErrorVariant::CustomError { message } => Value::String(message),
     }
+}
+
+fn convert_location(location: InputLocation) -> Value {
+    use self::InputLocation::*;
+
+    let (start, end) = match location {
+        Pos(start) => (start, None),
+        Span((start, end)) => (start, Some(end)),
+    };
+
+    json!({
+        "start": start,
+        "end": end,
+    })
 }
 
 fn convert_line_col(line_col: LineColLocation) -> Value {
@@ -94,7 +108,7 @@ pub fn convert(error: ftml::Error) -> Error {
             err,
             json!({
                 "variant": convert_variant(err.variant),
-                "location": (),
+                "location": convert_location(err.location),
                 "line_col": convert_line_col(err.line_col),
             })
         ),
