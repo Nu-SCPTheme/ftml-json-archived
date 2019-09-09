@@ -22,8 +22,6 @@ before_script:
 stages:
   - format
   - test
-  - bin
-  - doc
 
 jobs:
   include:
@@ -42,12 +40,6 @@ jobs:
       script:
         - cargo build --verbose
         - cargo test --verbose -- --nocapture
-    - stage: bin
-      script:
-        - cargo build --verbose
-    - stage: doc
-      script:
-        - cargo doc --verbose
 
 notifications:
   email:
