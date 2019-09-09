@@ -26,6 +26,7 @@ extern crate jsonrpc_core;
 extern crate jsonrpc_core_client;
 extern crate jsonrpc_derive;
 extern crate jsonrpc_http_server;
+extern crate num_cpus;
 
 #[macro_use]
 extern crate serde;
@@ -34,6 +35,7 @@ extern crate serde;
 extern crate str_macro;
 extern crate toml;
 
+mod config;
 mod server;
 
 use self::server::FtmlServer;

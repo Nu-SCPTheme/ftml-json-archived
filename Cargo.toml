@@ -12,6 +12,7 @@ jsonrpc-core = "13"
 jsonrpc-core-client = "13"
 jsonrpc-derive = "13"
 jsonrpc-http-server = "13"
+num_cpus = "1"
 serde = { version = "1", features = ["derive"] }
 str-macro = "0.1"
 toml = "0.5"
