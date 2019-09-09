@@ -69,6 +69,7 @@ fn convert_line_col(line_col: LineColLocation) -> Value {
     })
 }
 
+#[cold]
 pub fn convert(error: ftml::Error) -> Error {
     match error {
         StaticMsg(msg) => make_err!(100, msg),
