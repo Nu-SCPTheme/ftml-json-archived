@@ -64,6 +64,6 @@ fn main() {
         .start_http(&address)
         .unwrap();
 
-    info!("Running main server loop...");
+    info!("Running main loop, serving on {}", &address);
     server.wait();
 }
