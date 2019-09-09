@@ -18,10 +18,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use crate::handle::FtmlHandle;
 use crate::ftml_error;
+use crate::handle::FtmlHandle;
 use ftml::prelude::*;
-use jsonrpc_core::{Error, ErrorCode, IoHandler, Result};
+use jsonrpc_core::{IoHandler, Result};
 use jsonrpc_derive::rpc;
 
 #[rpc]
@@ -78,7 +78,13 @@ impl FtmlApi for FtmlServer {
 
     fn error(&self, message: Option<String>) -> Result<()> {
         info!("Method: error");
-        Err(Error::new(ErrorCode::InternalError))
+
+        let error = match message {
+            Some(message) => make_err!(-1, message),
+            None => make_err!(-1),
+        };
+
+        Err(error)
     }
 
     // Core

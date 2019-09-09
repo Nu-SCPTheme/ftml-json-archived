@@ -18,8 +18,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-use ftml::{RemoteHandle, RemoteResult};
 use ftml::data::User;
+use ftml::{RemoteHandle, RemoteResult};
 use std::borrow::Cow;
 use std::collections::HashMap;
 

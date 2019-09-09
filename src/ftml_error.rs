@@ -25,13 +25,18 @@ use std::fmt::Debug;
 
 fn convert_variant<R: Debug>(variant: ErrorVariant<R>) -> Value {
     macro_rules! map_str {
-        ($map:expr) => (
-            $map.iter().map(|rule| format!("{:?}", rule)).collect::<Vec<_>>()
-        )
+        ($map:expr) => {
+            $map.iter()
+                .map(|rule| format!("{:?}", rule))
+                .collect::<Vec<_>>()
+        };
     }
 
     match variant {
-        ErrorVariant::ParsingError { positives, negatives } => json!({
+        ErrorVariant::ParsingError {
+            positives,
+            negatives,
+        } => json!({
             "positives": map_str!(positives),
             "negatives": map_str!(negatives),
         }),
@@ -68,22 +73,34 @@ pub fn convert(error: ftml::Error) -> Error {
     match error {
         StaticMsg(msg) => make_err!(100, msg),
         Msg(msg) => make_err!(101, msg),
-        Io(err) => make_err!(102, err, json!({
-            "kind": format!("{:?}", err.kind()),
-        })),
-        Utf8(err) => make_err!(103, err, json!({
-            "valid_up_to": err.valid_up_to(),
-            "error_len": err.error_len(),
-        })),
-        Parse(err) => make_err!(104, err, json!({
-            "variant": convert_variant(err.variant),
-            "location": (),
-            "line_col": convert_line_col(err.line_col),
-        })),
+        Io(err) => make_err!(
+            102,
+            err,
+            json!({
+                "kind": format!("{:?}", err.kind()),
+            })
+        ),
+        Utf8(err) => make_err!(
+            103,
+            err,
+            json!({
+                "valid_up_to": err.valid_up_to(),
+                "error_len": err.error_len(),
+            })
+        ),
+        Parse(err) => make_err!(
+            104,
+            err,
+            json!({
+                "variant": convert_variant(err.variant),
+                "location": (),
+                "line_col": convert_line_col(err.line_col),
+            })
+        ),
         Remote(err) => {
             let msg: String = err.into();
             make_err!(105, msg)
-        },
+        }
         Fmt(err) => make_err!(106, err),
     }
 }
