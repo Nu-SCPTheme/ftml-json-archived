@@ -87,7 +87,10 @@ impl Into<Config> for ConfigFile {
         };
 
         let address = SocketAddr::new(ip_address, self.port);
-        let threads = self.threads.unwrap_or_else(num_cpus::get);
+        let threads = match self.threads {
+            Some(0) | None => num_cpus::get(),
+            Some(threads) => threads,
+        };
 
         Config { address, threads }
     }
