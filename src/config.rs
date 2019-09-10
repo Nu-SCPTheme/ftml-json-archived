@@ -45,8 +45,6 @@ impl Config {
             .max_term_width(110)
             .arg(
                 Arg::with_name("config")
-                    .short("c")
-                    .long("config")
                     .value_name("FILE")
                     .required(true)
                     .help("Use the given configuration file"),
