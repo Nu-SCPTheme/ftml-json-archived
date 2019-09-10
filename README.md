@@ -17,8 +17,10 @@ $ cargo build --release
 This will create the final `ftml-json` binary, which can be executed using the following:
 
 ```sh
-$ cargo run -- [arguments]
+$ cargo run -- <config-file>
 ```
+
+An example configuration file is available at `misc/config.toml`.
 
 ### Testing
 ```sh
