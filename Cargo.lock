@@ -338,7 +338,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "ftml"
 version = "0.2.16"
-source = "git+https://github.com/Nu-SCPTheme/ftml#b9a0314dc50e84dcb072c92b39ab01440e4f6811"
+source = "git+https://github.com/Nu-SCPTheme/ftml#3fa3da2c8633fffda52668a4e7f1e00c28745b13"
 dependencies = [
  "cfg-if 0.1.9 (registry+https://github.com/rust-lang/crates.io-index)",
  "chrono 0.4.9 (registry+https://github.com/rust-lang/crates.io-index)",
