@@ -65,7 +65,7 @@ impl FtmlServer {
         FtmlServer { handle: FtmlHandle }
     }
 
-    pub fn to_handler(self) -> IoHandler {
+    pub fn into_handler(self) -> IoHandler {
         debug!("Creating IoHandler with FtmlApi");
 
         let mut io = IoHandler::default();
