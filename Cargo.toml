@@ -11,7 +11,7 @@ color-backtrace = "0.2"
 ftml = { version = "0.2", git = "https://github.com/Nu-SCPTheme/ftml" }
 jsonrpc-core = "13"
 jsonrpc-core-client = "13"
-jsonrpc-derive = "13"
+jsonrpc-derive = "14"
 jsonrpc-http-server = "13"
 log = "0.4"
 num_cpus = "1"
