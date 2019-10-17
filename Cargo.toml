@@ -9,7 +9,7 @@ edition = "2018" # this refers to the Cargo.toml version
 clap = "2"
 color-backtrace = "0.2"
 ftml = { version = "0.2", git = "https://github.com/Nu-SCPTheme/ftml" }
-jsonrpc-core = "13"
+jsonrpc-core = "14"
 jsonrpc-core-client = "13"
 jsonrpc-derive = "14"
 jsonrpc-http-server = "13"
