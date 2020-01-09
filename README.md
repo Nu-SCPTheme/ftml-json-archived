@@ -1,6 +1,12 @@
 ## ftml-json
 [![Build Status](https://travis-ci.org/Nu-SCPTheme/ftml-json.svg?branch=master)](https://travis-ci.org/Nu-SCPTheme/ftml-json)
 
+**THIS CRATE IS ARCHIVED**
+
+Use the [ftml-rpc](https://github.com/Nu-SCPTheme/ftml/tree/master/ftml-rpc) crate instead. This code is no longer maintained.
+
+----
+
 See the [ftml](https://github.com/Nu-SCPTheme/ftml) repo for information on "Foundation Text Markup Language".
 
 This is a Rust application which enables parsing and rendering Wikidot sources into HTML, receiving requests via JSON and making client calls as needed to fetch remote information.
